@@ -1,0 +1,493 @@
+<script type="text/javascript">
+    RED.nodes.registerType('tb-tenant-controller', {
+        category: 'function',
+        color: '#89bf04',
+        defaults: {
+            method: { value: "", required: true },
+            saveTenantUsingPOST_body: { value: "" },
+            saveTenantUsingPOST_bodyType: { value: "str" },
+            getTenantInfoByIdUsingGET_tenantId: { value: "" },
+            getTenantInfoByIdUsingGET_tenantIdType: { value: "str" },
+            getTenantByIdUsingGET_tenantId: { value: "" },
+            getTenantByIdUsingGET_tenantIdType: { value: "str" },
+            deleteTenantUsingDELETE_tenantId: { value: "" },
+            deleteTenantUsingDELETE_tenantIdType: { value: "str" },
+            getTenantInfosUsingGET_pageSize: { value: "" },
+            getTenantInfosUsingGET_pageSizeType: { value: "str" },
+            getTenantInfosUsingGET_page: { value: "" },
+            getTenantInfosUsingGET_pageType: { value: "str" },
+            getTenantInfosUsingGET_textSearch: { value: "" },
+            getTenantInfosUsingGET_textSearchType: { value: "str" },
+            getTenantInfosUsingGET_sortProperty: { value: "" },
+            getTenantInfosUsingGET_sortPropertyType: { value: "str" },
+            getTenantInfosUsingGET_sortOrder: { value: "" },
+            getTenantInfosUsingGET_sortOrderType: { value: "str" },
+            getTenantsUsingGET_pageSize: { value: "" },
+            getTenantsUsingGET_pageSizeType: { value: "str" },
+            getTenantsUsingGET_page: { value: "" },
+            getTenantsUsingGET_pageType: { value: "str" },
+            getTenantsUsingGET_textSearch: { value: "" },
+            getTenantsUsingGET_textSearchType: { value: "str" },
+            getTenantsUsingGET_sortProperty: { value: "" },
+            getTenantsUsingGET_sortPropertyType: { value: "str" },
+            getTenantsUsingGET_sortOrder: { value: "" },
+            getTenantsUsingGET_sortOrderType: { value: "str" },
+            name: { value: "" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'icon.png',
+        label: function () {
+            return this.name || this.method || "tb-tenant-controller";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function () {
+            var selectedMethod = $('#node-input-method option:selected');
+            if (!selectedMethod.val()) {
+                var methods = $('#node-input-method').children();
+                var firstMethod = methods.first();
+                $('#node-input-method').val(firstMethod.val());
+            }
+
+            var showParameters = function () {
+
+                $("#node-input-saveTenantUsingPOST_body").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-saveTenantUsingPOST_bodyType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#saveTenantUsingPOST_body").hide();
+
+                $("#node-input-getTenantInfoByIdUsingGET_tenantId").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantInfoByIdUsingGET_tenantIdType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantInfoByIdUsingGET_tenantId").hide();
+
+                $("#node-input-getTenantByIdUsingGET_tenantId").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantByIdUsingGET_tenantIdType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantByIdUsingGET_tenantId").hide();
+
+                $("#node-input-deleteTenantUsingDELETE_tenantId").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-deleteTenantUsingDELETE_tenantIdType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#deleteTenantUsingDELETE_tenantId").hide();
+
+                $("#node-input-getTenantInfosUsingGET_pageSize").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantInfosUsingGET_pageSizeType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantInfosUsingGET_pageSize").hide();
+
+                $("#node-input-getTenantInfosUsingGET_page").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantInfosUsingGET_pageType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantInfosUsingGET_page").hide();
+
+                $("#node-input-getTenantInfosUsingGET_textSearch").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantInfosUsingGET_textSearchType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantInfosUsingGET_textSearch").hide();
+
+
+                $("#getTenantInfosUsingGET_sortProperty").hide();
+
+
+                $("#getTenantInfosUsingGET_sortOrder").hide();
+
+                $("#node-input-getTenantsUsingGET_pageSize").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantsUsingGET_pageSizeType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantsUsingGET_pageSize").hide();
+
+                $("#node-input-getTenantsUsingGET_page").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantsUsingGET_pageType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantsUsingGET_page").hide();
+
+                $("#node-input-getTenantsUsingGET_textSearch").typedInput({
+                    default: 'str',
+                    typeField: $("#node-input-getTenantsUsingGET_textSearchType"),
+                    types: ['str', 'msg']
+                });
+
+                $("#getTenantsUsingGET_textSearch").hide();
+
+
+                $("#getTenantsUsingGET_sortProperty").hide();
+
+
+                $("#getTenantsUsingGET_sortOrder").hide();
+
+                $("#optional-parameters").hide();
+                $("#optional-parameters-label").hide();
+                if ($("#node-input-method").val() === 'saveTenantUsingPOST') {
+
+                }
+                if ($("#node-input-method").val() === 'getTenantInfoByIdUsingGET') {
+
+                }
+                if ($("#node-input-method").val() === 'getTenantByIdUsingGET') {
+
+                }
+                if ($("#node-input-method").val() === 'deleteTenantUsingDELETE') {
+
+                }
+                if ($("#node-input-method").val() === 'getTenantInfosUsingGET') {
+
+                    $("#optional-parameters").show();
+                    $("#optional-parameters-label").show();
+                    
+                }
+                if ($("#node-input-method").val() === 'getTenantsUsingGET') {
+
+                    $("#optional-parameters").show();
+                    $("#optional-parameters-label").show();
+                    
+                }
+
+                if ($("#optional-parameters").prop('checked')) {
+                    if ($("#node-input-method").val() === 'saveTenantUsingPOST') {
+
+                    }
+                    if ($("#node-input-method").val() === 'getTenantInfoByIdUsingGET') {
+
+                        $("#getTenantInfoByIdUsingGET_tenantId").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'getTenantByIdUsingGET') {
+
+                        $("#getTenantByIdUsingGET_tenantId").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'deleteTenantUsingDELETE') {
+
+                        $("#deleteTenantUsingDELETE_tenantId").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'getTenantInfosUsingGET') {
+
+                        $("#getTenantInfosUsingGET_pageSize").show();
+                        
+                        $("#getTenantInfosUsingGET_page").show();
+                        
+                        $("#getTenantInfosUsingGET_textSearch").show();
+                        
+                        $("#getTenantInfosUsingGET_sortProperty").show();
+                        
+                        $("#getTenantInfosUsingGET_sortOrder").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'getTenantsUsingGET') {
+
+                        $("#getTenantsUsingGET_pageSize").show();
+                        
+                        $("#getTenantsUsingGET_page").show();
+                        
+                        $("#getTenantsUsingGET_textSearch").show();
+                        
+                        $("#getTenantsUsingGET_sortProperty").show();
+                        
+                        $("#getTenantsUsingGET_sortOrder").show();
+                        
+                    }
+                } else {
+                    if ($("#node-input-method").val() === 'saveTenantUsingPOST') {
+
+                    }
+                    if ($("#node-input-method").val() === 'getTenantInfoByIdUsingGET') {
+
+                        $("#getTenantInfoByIdUsingGET_tenantId").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'getTenantByIdUsingGET') {
+
+                        $("#getTenantByIdUsingGET_tenantId").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'deleteTenantUsingDELETE') {
+
+                        $("#deleteTenantUsingDELETE_tenantId").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'getTenantInfosUsingGET') {
+
+                        $("#getTenantInfosUsingGET_pageSize").show();
+                        
+                        $("#getTenantInfosUsingGET_page").show();
+                        
+                    }
+                    if ($("#node-input-method").val() === 'getTenantsUsingGET') {
+
+                        $("#getTenantsUsingGET_pageSize").show();
+                        
+                        $("#getTenantsUsingGET_page").show();
+                        
+                    }
+                }
+            };
+
+            $("#node-input-method").change(function () {
+                showParameters();
+            });
+
+            $("#optional-parameters").change(function () {
+                showParameters();
+            });
+
+            var selected_getTenantInfosUsingGET_sortProperty = $('#node-input-getTenantInfosUsingGET_sortProperty option:selected');
+            if (!selected_getTenantInfosUsingGET_sortProperty.val()) {
+                var children_getTenantInfosUsingGET_sortProperty = $('#node-input-getTenantInfosUsingGET_sortProperty').children();
+                var first_getTenantInfosUsingGET_sortProperty = children_getTenantInfosUsingGET_sortProperty.first();
+                $('#node-input-getTenantInfosUsingGET_sortProperty').val(first_getTenantInfosUsingGET_sortProperty.val());
+            }
+            var selected_getTenantInfosUsingGET_sortOrder = $('#node-input-getTenantInfosUsingGET_sortOrder option:selected');
+            if (!selected_getTenantInfosUsingGET_sortOrder.val()) {
+                var children_getTenantInfosUsingGET_sortOrder = $('#node-input-getTenantInfosUsingGET_sortOrder').children();
+                var first_getTenantInfosUsingGET_sortOrder = children_getTenantInfosUsingGET_sortOrder.first();
+                $('#node-input-getTenantInfosUsingGET_sortOrder').val(first_getTenantInfosUsingGET_sortOrder.val());
+            }
+            var selected_getTenantsUsingGET_sortProperty = $('#node-input-getTenantsUsingGET_sortProperty option:selected');
+            if (!selected_getTenantsUsingGET_sortProperty.val()) {
+                var children_getTenantsUsingGET_sortProperty = $('#node-input-getTenantsUsingGET_sortProperty').children();
+                var first_getTenantsUsingGET_sortProperty = children_getTenantsUsingGET_sortProperty.first();
+                $('#node-input-getTenantsUsingGET_sortProperty').val(first_getTenantsUsingGET_sortProperty.val());
+            }
+            var selected_getTenantsUsingGET_sortOrder = $('#node-input-getTenantsUsingGET_sortOrder option:selected');
+            if (!selected_getTenantsUsingGET_sortOrder.val()) {
+                var children_getTenantsUsingGET_sortOrder = $('#node-input-getTenantsUsingGET_sortOrder').children();
+                var first_getTenantsUsingGET_sortOrder = children_getTenantsUsingGET_sortOrder.first();
+                $('#node-input-getTenantsUsingGET_sortOrder').val(first_getTenantsUsingGET_sortOrder.val());
+            }
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="tb-tenant-controller">
+
+    <div class="form-row">
+        <label for="node-input-method"><i class="fa fa-tasks"></i> <span data-i18n="TbTenantController.label.method"></span></label>
+        <select id="node-input-method">
+            <option value="saveTenantUsingPOST" data-i18n="TbTenantController.parameters.saveTenantUsingPOST"></option>
+            <option value="getTenantInfoByIdUsingGET" data-i18n="TbTenantController.parameters.getTenantInfoByIdUsingGET"></option>
+            <option value="getTenantByIdUsingGET" data-i18n="TbTenantController.parameters.getTenantByIdUsingGET"></option>
+            <option value="deleteTenantUsingDELETE" data-i18n="TbTenantController.parameters.deleteTenantUsingDELETE"></option>
+            <option value="getTenantInfosUsingGET" data-i18n="TbTenantController.parameters.getTenantInfosUsingGET"></option>
+            <option value="getTenantsUsingGET" data-i18n="TbTenantController.parameters.getTenantsUsingGET"></option>
+        </select>
+        &nbsp;
+        <input type="checkbox" id="optional-parameters" style="margin-left: 10px; vertical-align: text-bottom; width: auto;">
+        <label for="optional-parameters" id="optional-parameters-label" style="width: auto;"> <span data-i18n="TbTenantController.parameters.optionalParameters"></span></label>
+    </div>
+
+    <div class="form-row" id="saveTenantUsingPOST_body">
+        <label for="node-input-saveTenantUsingPOST_body"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.body"></span></label>
+
+        <input type="text" id="node-input-saveTenantUsingPOST_body" placeholder="" style="width:70%">
+        <input type="hidden" id="node-input-saveTenantUsingPOST_bodyType">
+    </div>
+
+    <div class="form-row" id="getTenantInfoByIdUsingGET_tenantId">
+        <label for="node-input-getTenantInfoByIdUsingGET_tenantId"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.tenantId"></span></label>
+
+        <input type="text" id="node-input-getTenantInfoByIdUsingGET_tenantId" placeholder="A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'" style="width:70%">
+        <input type="hidden" id="node-input-getTenantInfoByIdUsingGET_tenantIdType">
+    </div>
+
+    <div class="form-row" id="getTenantByIdUsingGET_tenantId">
+        <label for="node-input-getTenantByIdUsingGET_tenantId"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.tenantId"></span></label>
+
+        <input type="text" id="node-input-getTenantByIdUsingGET_tenantId" placeholder="A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'" style="width:70%">
+        <input type="hidden" id="node-input-getTenantByIdUsingGET_tenantIdType">
+    </div>
+
+    <div class="form-row" id="deleteTenantUsingDELETE_tenantId">
+        <label for="node-input-deleteTenantUsingDELETE_tenantId"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.tenantId"></span></label>
+
+        <input type="text" id="node-input-deleteTenantUsingDELETE_tenantId" placeholder="A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'" style="width:70%">
+        <input type="hidden" id="node-input-deleteTenantUsingDELETE_tenantIdType">
+    </div>
+
+    <div class="form-row" id="getTenantInfosUsingGET_pageSize">
+        <label for="node-input-getTenantInfosUsingGET_pageSize"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.pageSize"></span></label>
+
+        <input type="text" id="node-input-getTenantInfosUsingGET_pageSize" placeholder="Maximum amount of entities in a one page" style="width:70%">
+        <input type="hidden" id="node-input-getTenantInfosUsingGET_pageSizeType">
+    </div>
+
+    <div class="form-row" id="getTenantInfosUsingGET_page">
+        <label for="node-input-getTenantInfosUsingGET_page"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.page"></span></label>
+
+        <input type="text" id="node-input-getTenantInfosUsingGET_page" placeholder="Sequence number of page starting from 0" style="width:70%">
+        <input type="hidden" id="node-input-getTenantInfosUsingGET_pageType">
+    </div>
+
+    <div class="form-row" id="getTenantInfosUsingGET_textSearch">
+        <label for="node-input-getTenantInfosUsingGET_textSearch"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.textSearch"></span></label>
+
+        <input type="text" id="node-input-getTenantInfosUsingGET_textSearch" placeholder="The case insensitive 'substring' filter based on the tenant name." style="width:70%">
+        <input type="hidden" id="node-input-getTenantInfosUsingGET_textSearchType">
+    </div>
+
+    <div class="form-row" id="getTenantInfosUsingGET_sortProperty">
+        <label for="node-input-getTenantInfosUsingGET_sortProperty"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.sortProperty"></span></label>
+        <select id="node-input-getTenantInfosUsingGET_sortProperty">
+            <option value="address">address</option>
+            <option value="address2">address2</option>
+            <option value="city">city</option>
+            <option value="country">country</option>
+            <option value="createdTime">createdTime</option>
+            <option value="email">email</option>
+            <option value="phone">phone</option>
+            <option value="state">state</option>
+            <option value="tenantProfileName">tenantProfileName</option>
+            <option value="title">title</option>
+            <option value="zip">zip</option>
+        </select>
+
+    </div>
+
+    <div class="form-row" id="getTenantInfosUsingGET_sortOrder">
+        <label for="node-input-getTenantInfosUsingGET_sortOrder"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.sortOrder"></span></label>
+        <select id="node-input-getTenantInfosUsingGET_sortOrder">
+            <option value="ASC">ASC</option>
+            <option value="DESC">DESC</option>
+        </select>
+
+    </div>
+
+    <div class="form-row" id="getTenantsUsingGET_pageSize">
+        <label for="node-input-getTenantsUsingGET_pageSize"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.pageSize"></span></label>
+
+        <input type="text" id="node-input-getTenantsUsingGET_pageSize" placeholder="Maximum amount of entities in a one page" style="width:70%">
+        <input type="hidden" id="node-input-getTenantsUsingGET_pageSizeType">
+    </div>
+
+    <div class="form-row" id="getTenantsUsingGET_page">
+        <label for="node-input-getTenantsUsingGET_page"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.page"></span></label>
+
+        <input type="text" id="node-input-getTenantsUsingGET_page" placeholder="Sequence number of page starting from 0" style="width:70%">
+        <input type="hidden" id="node-input-getTenantsUsingGET_pageType">
+    </div>
+
+    <div class="form-row" id="getTenantsUsingGET_textSearch">
+        <label for="node-input-getTenantsUsingGET_textSearch"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.textSearch"></span></label>
+
+        <input type="text" id="node-input-getTenantsUsingGET_textSearch" placeholder="The case insensitive 'substring' filter based on the tenant name." style="width:70%">
+        <input type="hidden" id="node-input-getTenantsUsingGET_textSearchType">
+    </div>
+
+    <div class="form-row" id="getTenantsUsingGET_sortProperty">
+        <label for="node-input-getTenantsUsingGET_sortProperty"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.sortProperty"></span></label>
+        <select id="node-input-getTenantsUsingGET_sortProperty">
+            <option value="address">address</option>
+            <option value="address2">address2</option>
+            <option value="city">city</option>
+            <option value="country">country</option>
+            <option value="createdTime">createdTime</option>
+            <option value="email">email</option>
+            <option value="phone">phone</option>
+            <option value="state">state</option>
+            <option value="title">title</option>
+            <option value="zip">zip</option>
+        </select>
+
+    </div>
+
+    <div class="form-row" id="getTenantsUsingGET_sortOrder">
+        <label for="node-input-getTenantsUsingGET_sortOrder"><i class="fa fa-list"></i> <span data-i18n="TbTenantController.parameters.sortOrder"></span></label>
+        <select id="node-input-getTenantsUsingGET_sortOrder">
+            <option value="ASC">ASC</option>
+            <option value="DESC">DESC</option>
+        </select>
+
+    </div>
+
+    <hr/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]node-red:common.label.name">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="tb-tenant-controller">
+
+    <p> ThingsBoard open-source IoT platform REST API documentation.</p>
+    <p><b>Methods</b></p>
+        <h3>POST /api/tenant</h3>
+        <p>Create or update the Tenant. When creating tenant, platform generates Tenant Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). Default Rule Chain and Device profile are also generated for the new tenants automatically. The newly created Tenant Id will be present in the response. Specify existing Tenant Id id to update the Tenant. Referencing non-existing Tenant Id will cause 'Not Found' error.
+
+Available for users with 'SYS_ADMIN' authority.</p>
+        <dl class="message-properties">
+        <dt>body <span class="property-type"></span></dt>
+        </dl>
+        <h3>GET /api/tenant/info/{tenantId}</h3>
+        <p>Fetch the Tenant Info object based on the provided Tenant Id. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. 
+
+Available for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.</p>
+        <dl class="message-properties">
+        <dt>tenantId <span class="property-type">string</span></dt>
+        </dl>
+        <h3>GET /api/tenant/{tenantId}</h3>
+        <p>Fetch the Tenant object based on the provided Tenant Id. 
+
+Available for users with 'SYS_ADMIN' or 'TENANT_ADMIN' authority.</p>
+        <dl class="message-properties">
+        <dt>tenantId <span class="property-type">string</span></dt>
+        </dl>
+        <h3>DELETE /api/tenant/{tenantId}</h3>
+        <p>Deletes the tenant, it's customers, rule chains, devices and all other related entities. Referencing non-existing tenant Id will cause an error.
+
+Available for users with 'SYS_ADMIN' authority.</p>
+        <dl class="message-properties">
+        <dt>tenantId <span class="property-type">string</span></dt>
+        </dl>
+        <h3>GET /api/tenantInfos{?page,pageSize,sortOrder,sortProperty,textSearch}</h3>
+        <p>Returns a page of tenant info objects registered in the platform. The Tenant Info object extends regular Tenant object and includes Tenant Profile name. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details. 
+
+Available for users with 'SYS_ADMIN' authority.</p>
+        <dl class="message-properties">
+        <dt>pageSize <span class="property-type">integer</span></dt>
+        <dt>page <span class="property-type">integer</span></dt>
+        <dt>textSearch <span class="property-type">string</span></dt>
+        <dt>sortProperty <span class="property-type">string</span></dt>
+        <dt>sortOrder <span class="property-type">string</span></dt>
+        </dl>
+        <h3>GET /api/tenants{?page,pageSize,sortOrder,sortProperty,textSearch}</h3>
+        <p>Returns a page of tenants registered in the platform. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details. 
+
+Available for users with 'SYS_ADMIN' authority.</p>
+        <dl class="message-properties">
+        <dt>pageSize <span class="property-type">integer</span></dt>
+        <dt>page <span class="property-type">integer</span></dt>
+        <dt>textSearch <span class="property-type">string</span></dt>
+        <dt>sortProperty <span class="property-type">string</span></dt>
+        <dt>sortOrder <span class="property-type">string</span></dt>
+        </dl>
+</script>

@@ -1,0 +1,31 @@
+{
+    "TbTenantController": {
+        "label": {
+            "service": "服务",
+            "method": "方法",
+            "host": "网络主机",
+            "header": "字头段",
+            "value": "值",
+            "isQuery": "查询"
+        },
+        "status": {
+            "requesting": "请求中"
+        },
+        "parameters": {
+            "saveTenantUsingPOST": "POST /api/tenant",
+            "body": "body",
+            "getTenantInfoByIdUsingGET": "GET /api/tenant/info/{tenantId}",
+            "tenantId": "tenantId",
+            "getTenantByIdUsingGET": "GET /api/tenant/{tenantId}",
+            "deleteTenantUsingDELETE": "DELETE /api/tenant/{tenantId}",
+            "getTenantInfosUsingGET": "GET /api/tenantInfos{?page,pageSize,sortOrder,sortProperty,textSearch}",
+            "pageSize": "pageSize",
+            "page": "page",
+            "textSearch": "textSearch",
+            "sortProperty": "sortProperty",
+            "sortOrder": "sortOrder",
+            "getTenantsUsingGET": "GET /api/tenants{?page,pageSize,sortOrder,sortProperty,textSearch}",
+            "optionalParameters": "可选项"
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "TbTenantController": {
+        "label": {
+            "service": "Service",
+            "method": "Methode",
+            "host": "Host",
+            "header": "Header",
+            "value": "Wert",
+            "isQuery": "Suchanfrage"
+        },
+        "status": {
+            "requesting": "Anfrage..."
+        },
+        "parameters": {
+            "saveTenantUsingPOST": "POST /api/tenant",
+            "body": "body",
+            "getTenantInfoByIdUsingGET": "GET /api/tenant/info/{tenantId}",
+            "tenantId": "tenantId",
+            "getTenantByIdUsingGET": "GET /api/tenant/{tenantId}",
+            "deleteTenantUsingDELETE": "DELETE /api/tenant/{tenantId}",
+            "getTenantInfosUsingGET": "GET /api/tenantInfos{?page,pageSize,sortOrder,sortProperty,textSearch}",
+            "pageSize": "pageSize",
+            "page": "page",
+            "textSearch": "textSearch",
+            "sortProperty": "sortProperty",
+            "sortOrder": "sortOrder",
+            "getTenantsUsingGET": "GET /api/tenants{?page,pageSize,sortOrder,sortProperty,textSearch}",
+            "optionalParameters": "Optionen"
+        }
+    }
+}
